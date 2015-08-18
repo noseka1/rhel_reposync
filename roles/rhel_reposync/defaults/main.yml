@@ -1,0 +1,22 @@
+rhel6_config:
+  base_image: rhel6:latest
+  reposync_image: rhel6_reposync
+  reposync_container: rhel6_reposync
+  reposync_registered_image: rhel6_reposync_registered
+  enable_repos:
+    - rhel-6-server-rpms
+    - rhel-6-server-debug-rpms
+    - rhel-6-server-optional-rpms
+    - rhel-6-server-optional-debug-rpms
+rhel7_config:
+  base_image: rhel7:latest
+  reposync_image: rhel7_reposync
+  reposync_container: rhel7_reposync
+  reposync_registered_image: rhel7_reposync_registered
+  enable_repos:
+    - rhel-7-server-rpms
+    - rhel-7-server-debug-rpms
+    - rhel-7-server-optional-rpms
+    - rhel-7-server-optional-debug-rpms
+    - rhel-7-server-extras-rpms
+    - rhel-7-server-extras-debug-rpms

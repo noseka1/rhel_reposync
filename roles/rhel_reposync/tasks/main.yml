@@ -1,0 +1,5 @@
+- name: Create RHEL6 reposync
+  include: create_reposync.yml base_image={{ rhel6_config.base_image }} reposync_image={{ rhel6_config.reposync_image }} reposync_container={{ rhel6_config.reposync_container }} reposync_registered_image={{ rhel6_config.reposync_registered_image }} enable_repos={{ rhel6_config.enable_repos }}
+
+- name: Create RHEL7 reposync
+  include: create_reposync.yml base_image={{ rhel7_config.base_image }} reposync_image={{ rhel7_config.reposync_image }} reposync_container={{ rhel7_config.reposync_container }} reposync_registered_image={{ rhel7_config.reposync_registered_image }} enable_repos={{ rhel7_config.enable_repos }}

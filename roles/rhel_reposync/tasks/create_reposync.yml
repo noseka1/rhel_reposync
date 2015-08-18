@@ -1,0 +1,26 @@
+- name: Check if the reposync image exists
+  command: docker history {{ reposync_image }}
+  register: reposync_image_history
+  ignore_errors: True
+
+- name: Build a reposync image
+  include: reposync_image.yml reposync_image={{ reposync_image }} base_image={{ base_image }}
+  when: reposync_image_history | failed
+
+- name: Check if the reposync container exists
+  command: docker logs --tail=1 {{ reposync_container }}
+  register: reposync_container_inspect
+  ignore_errors: True
+
+- name: Create a reposync container from the reposync image
+  include: reposync_container.yml reposync_image={{ reposync_image }} reposync_container={{ reposync_container }} enable_repos={{ enable_repos }}
+  when: reposync_container_inspect | failed
+
+- name: Check if the reposync registered image exists
+  command: docker history {{ reposync_registered_image }}
+  register: reposync_registered_image_history
+  ignore_errors: True
+
+- name: Create a reposync registered image from the reposync container
+  include: reposync_registered_image.yml reposync_container={{ reposync_container }} reposync_registered_image={{ reposync_registered_image }}
+  when: reposync_registered_image_history | failed

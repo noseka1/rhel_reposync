@@ -1,0 +1,15 @@
+- name: Create a temp directory
+  command: mktemp -d
+  register: mktemp
+
+- name: Copy Dockerfile to the remote host
+  template: src=Dockerfile dest={{ mktemp.stdout }}
+
+- name: Copy main.sh to the remote host
+  template: src=main.sh dest={{ mktemp.stdout }} mode=755
+
+- name: Build a reposync image from Dockerfile
+  command: docker build -t {{ reposync_image }} {{ mktemp.stdout }}
+
+- name: Remove the temp directory {{ mktemp.stdout }}
+  file: name={{ mktemp.stdout }} state=absent

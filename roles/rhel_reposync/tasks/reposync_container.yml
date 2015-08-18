@@ -1,0 +1,17 @@
+- name: Create a temp directory
+  command: mktemp -d
+  register: mktemp
+
+- name: Copy Red Hat Customer Portal credentials to the remote host
+  template: src=credentials dest={{ mktemp.stdout }} mode=700
+
+- name: Register RHEL system
+  command: docker run --name {{ reposync_container }} -v {{ mktemp.stdout }}/credentials:/credentials {{ reposync_image }}
+  register: docker_run
+  ignore_errors: True
+
+- name: Remove the temp directory {{ mktemp.stdout }}
+  file: name={{ mktemp.stdout }} state=absent
+
+- fail: msg="Failed to register RHEL system"
+  when: docker_run | failed
